@@ -25,14 +25,16 @@ export interface RouletteProps {
 export const Roulette = forwardRef<{spin: () => void}, RouletteProps>(
   ({segments, winningSegment, winningColor, segColors, textColors, onFinished, strokeColor = 'black', size = 300, upDuration = 100, downDuration = 1000, outlineWidth = 5}: RouletteProps, ref) => {
     const svgRef = useRef<Svg>(null)
-    let timerHandle: number | NodeJS.Timeout = 0
+
     const timerDelay = segments.length
+    const upTime = segments.length * upDuration
+    const downTime = segments.length * downDuration
+
+    let timerHandle: number | NodeJS.Timeout = 0
+    let spinStart = 0
     let angleCurrent = 0
     let angleDelta = 0
     let maxSpeed = Math.PI / segments.length
-    const upTime = segments.length * upDuration
-    const downTime = segments.length * downDuration
-    let spinStart = 0
 
     const spin = () => {
       if (timerHandle === 0) {
@@ -47,6 +49,7 @@ export const Roulette = forwardRef<{spin: () => void}, RouletteProps>(
       const duration = new Date().getTime() - spinStart
       let progress = 0
       let finished = false
+
       if (duration < upTime) {
         progress = duration / upTime
         angleDelta = maxSpeed * Math.sin((progress * Math.PI) / 2)
@@ -58,6 +61,7 @@ export const Roulette = forwardRef<{spin: () => void}, RouletteProps>(
 
       angleCurrent += angleDelta
       while (angleCurrent >= Math.PI * 2) angleCurrent -= Math.PI * 2
+
       if (finished) {
         clearInterval(timerHandle)
         timerHandle = 0
@@ -67,6 +71,7 @@ export const Roulette = forwardRef<{spin: () => void}, RouletteProps>(
         const winningSegment = segments[winningSegmentIndex]
         onFinished(winningSegment)
       }
+
       draw()
     }
 
