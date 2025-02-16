@@ -7,7 +7,7 @@
   <img alt="GitHub Top Language" src="https://img.shields.io/github/languages/top/jhonbergmann/prize-roulette" />
 </p>
 
-<p align="center">Spin the wheel and compete for prizes.</p>
+<p align="center">Spin the roulette and compete for prizes.</p>
 
 <p align="center">
   <img src="docs/assets/illustration1.jpg" width="45%"  alt="illustration" >
